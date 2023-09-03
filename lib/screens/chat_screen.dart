@@ -82,7 +82,7 @@ class ChatScreenState extends State<ChatScreen> {
         ],
         title: Row(
           children: [
-            Image.asset('images/logo.png', width: 30, height: 50),
+            Image.asset('assets/images/logo.png', width: 30, height: 50),
             const SizedBox(width: 10),
             const Text('Group Chat')
           ],
