@@ -9,11 +9,11 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const FlashChat());
+  runApp(const GroupChat());
 }
 
-class FlashChat extends StatelessWidget {
-  const FlashChat({super.key});
+class GroupChat extends StatelessWidget {
+  const GroupChat({super.key});
 
   @override
   Widget build(BuildContext context) {
