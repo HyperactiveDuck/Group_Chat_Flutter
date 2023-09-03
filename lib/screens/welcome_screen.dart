@@ -48,7 +48,7 @@ class WelcomeScreenState extends State<WelcomeScreen>
                     child: logoImage,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 AnimatedTextKit(
