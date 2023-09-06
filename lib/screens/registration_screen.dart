@@ -20,6 +20,8 @@ class RegistrationScreenState extends State<RegistrationScreen> {
   bool showSpinner = false;
   String email = '';
   String password = '';
+  String error = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,6 +68,11 @@ class RegistrationScreenState extends State<RegistrationScreen> {
               const SizedBox(
                 height: 24.0,
               ),
+              Text(
+                error,
+                style: const TextStyle(color: Colors.red),
+                textAlign: TextAlign.center,
+              ),
               Hero(
                 tag: 'register',
                 child: LandingButton(
@@ -73,16 +80,56 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                     setState(() {
                       showSpinner = true;
                     });
-                    try {
-                      await _auth.createUserWithEmailAndPassword(
-                          email: email, password: password);
-                      Navigator.pushNamed(context, ChatScreen.id);
-
+                    if (email == '' || password == '') {
+                      showSpinner = false;
                       setState(() {
-                        showSpinner = false;
+                        error = 'Email or password is empty';
                       });
-                    } catch (e) {
-                      debugPrint(e.toString());
+                    } else {
+                      try {
+                        await _auth.createUserWithEmailAndPassword(
+                            email: email, password: password);
+                        Navigator.pushNamed(context, ChatScreen.id);
+
+                        setState(() {
+                          showSpinner = false;
+                        });
+                      } catch (e) {
+                        switch (e.toString()) {
+                          case '[firebase_auth/email-already-in-use] The email address is already in use by another account.':
+                            setState(() {
+                              error =
+                                  'The email address is already in use by another account.';
+                              showSpinner = false;
+                            });
+                          case '[firebase_auth/invalid-email] The email address is badly formatted.':
+                            setState(() {
+                              error = 'The email address is badly formatted.';
+                              showSpinner = false;
+                            });
+                          case '[firebase_auth/weak-password] Password should be at least 6 characters':
+                            setState(() {
+                              error =
+                                  'Password should be at least 6 characters';
+                              showSpinner = false;
+                            });
+                          case '[firebase_auth/too-many-requests] We have blocked all requests from this device due to unusual activity. Try again later.':
+                            setState(() {
+                              error =
+                                  'We have blocked all requests from this device due to unusual activity. Try again later.';
+                              showSpinner = false;
+                            });
+                          case '[firebase_auth/network-request-failed] A network error (such as timeout, interrupted connection or unreachable host) has occurred.':
+                            setState(() {
+                              error =
+                                  'A network error (such as timeout, interrupted connection or unreachable host) has occurred.';
+                              showSpinner = false;
+                            });
+
+                            break;
+                          default:
+                        }
+                      }
                     }
                   },
                   buttonColor: kPrimaryColor,

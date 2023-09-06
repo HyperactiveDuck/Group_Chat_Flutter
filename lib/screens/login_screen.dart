@@ -20,6 +20,8 @@ class LoginScreenState extends State<LoginScreen> {
   bool showSpinner = false;
   String email = '';
   String password = '';
+  String error = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,6 +68,11 @@ class LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 24.0,
               ),
+              Text(
+                error,
+                style: const TextStyle(color: Colors.red),
+                textAlign: TextAlign.center,
+              ),
               Hero(
                 tag: 'login',
                 child: LandingButton(
@@ -73,15 +80,26 @@ class LoginScreenState extends State<LoginScreen> {
                     setState(() {
                       showSpinner = true;
                     });
-                    try {
-                      await _auth.signInWithEmailAndPassword(
-                          email: email, password: password);
-                      Navigator.pushNamed(context, ChatScreen.id);
+                    if (email.isEmpty || password.isEmpty) {
                       setState(() {
+                        error = 'Please enter your email and password';
                         showSpinner = false;
                       });
-                    } catch (e) {
-                      debugPrint(e.toString());
+                      return;
+                    } else {
+                      try {
+                        await _auth.signInWithEmailAndPassword(
+                            email: email, password: password);
+                        Navigator.pushNamed(context, ChatScreen.id);
+                        setState(() {
+                          showSpinner = false;
+                        });
+                      } catch (e) {
+                        setState(() {
+                          error = 'Invalid email or password';
+                          showSpinner = false;
+                        });
+                      }
                     }
                   },
                   buttonColor: kPrimaryColor,
