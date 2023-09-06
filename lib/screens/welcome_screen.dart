@@ -32,7 +32,7 @@ class WelcomeScreenState extends State<WelcomeScreen>
   Widget build(BuildContext context) {
     timeDilation = 2.0; // 1.0 means normal animation speed.
     return Scaffold(
-      backgroundColor: kSeconderycolor,
+      backgroundColor: Colors.grey,
       body: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {

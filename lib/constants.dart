@@ -6,8 +6,8 @@ TextStyle kSendButtonTextStyle = TextStyle(
   fontSize: 18.0,
 );
 
-Color kPrimaryColor = const Color.fromARGB(255, 59, 51, 87);
-Color kSeconderycolor = const Color.fromRGBO(90, 81, 131, 1);
+Color kPrimaryColor = Colors.black;
+Color kSeconderycolor = Colors.grey;
 Color kThirdColor = const Color.fromRGBO(134, 142, 187, 1);
 Color kFourthColor = const Color.fromRGBO(122, 113, 67, 1);
 Color kFifthColor = const Color.fromRGBO(172, 158, 116, 1);
@@ -38,7 +38,7 @@ const TextStyle animatedTextStyle = TextStyle(
 
 TextStyle inputTextStyle = TextStyle(
   color: kPrimaryColor,
-  fontWeight: FontWeight.bold,
+  fontWeight: FontWeight.w900,
 );
 
 const String kAppTitle = 'Group Chat';
@@ -46,7 +46,7 @@ const String emailHintText = 'Enter your email';
 const String passwordHintText = 'Enter your password';
 InputDecoration kInputDecoration = InputDecoration(
   filled: true,
-  fillColor: kThirdColor,
+  fillColor: Colors.white,
   contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
   border: const OutlineInputBorder(
     borderRadius: BorderRadius.all(Radius.circular(32.0)),

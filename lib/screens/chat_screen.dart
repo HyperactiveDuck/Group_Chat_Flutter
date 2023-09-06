@@ -62,7 +62,7 @@ class ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kSixthColor,
+      backgroundColor: Colors.grey,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: null,
@@ -70,7 +70,6 @@ class ChatScreenState extends State<ChatScreen> {
           IconButton(
               icon: const Icon(Icons.logout),
               onPressed: () async {
-                messagesStream();
                 setState(() {
                   showSpinner = true;
                 });
@@ -88,7 +87,7 @@ class ChatScreenState extends State<ChatScreen> {
             const Text('Group Chat')
           ],
         ),
-        backgroundColor: kPrimaryColor,
+        backgroundColor: Colors.black38,
       ),
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
@@ -100,40 +99,40 @@ class ChatScreenState extends State<ChatScreen> {
               MessageStreamBuilder(firestore: _firestore),
               Container(
                 decoration: kMessageContainerDecoration,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        style: const TextStyle(color: Colors.black87),
-                        cursorColor: kPrimaryColor,
-                        controller: messageTextController,
-                        onChanged: (value) {
-                          messageText = value;
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 5, 10, 5),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          style: const TextStyle(color: Colors.black87),
+                          cursorColor: kPrimaryColor,
+                          controller: messageTextController,
+                          onChanged: (value) {
+                            messageText = value;
+                          },
+                          decoration: kMessageTextFieldDecoration,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          //Implement send functionality.
+                          messageTextController.clear();
+                          if (messageText != '') {
+                            _firestore
+                                .collection('messages')
+                                .doc(DateTime.now().toString())
+                                .set({
+                              'text': messageText,
+                              'sender': loggedInUser.email,
+                            });
+                          } else {}
                         },
-                        decoration: kMessageTextFieldDecoration,
+                        child: Icon(Icons.send, color: kPrimaryColor),
                       ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        //Implement send functionality.
-                        messageTextController.clear();
-                        if (messageText != '') {
-                          _firestore
-                              .collection('messages')
-                              .doc(DateTime.now().toString())
-                              .set({
-                            'text': messageText,
-                            'sender': loggedInUser.email,
-                          });
-                        } else {}
-                      },
-                      child: Text(
-                        'Send',
-                        style: kSendButtonTextStyle,
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -214,12 +213,27 @@ class MassageBubble extends StatelessWidget {
         crossAxisAlignment:
             isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
-          Text(
-            sender,
-            style: const TextStyle(fontSize: 12, color: Colors.white),
-          ),
-          const SizedBox(
-            height: 10,
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: isMe
+                  ? const BorderRadius.only(
+                      topRight: Radius.circular(10),
+                      topLeft: Radius.circular(10.0),
+                      bottomLeft: Radius.circular(0.0),
+                      bottomRight: Radius.circular(0.0),
+                    )
+                  : const BorderRadius.only(
+                      topRight: Radius.circular(10.0),
+                      bottomLeft: Radius.circular(0.0),
+                      bottomRight: Radius.circular(00.0),
+                      topLeft: Radius.circular(10)),
+              color: Colors.black38,
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: Text(
+              sender.toString().substring(0, sender.toString().indexOf('@')),
+              style: const TextStyle(fontSize: 12, color: Colors.white),
+            ),
           ),
           Material(
             elevation: 5.0,
@@ -234,15 +248,15 @@ class MassageBubble extends StatelessWidget {
                     bottomLeft: Radius.circular(30.0),
                     bottomRight: Radius.circular(30.0),
                   ),
-            color: isMe ? kFifthColor : kFourthColor,
+            color: isMe ? Colors.white : Colors.blue,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: Text(
                 text,
                 style: const TextStyle(
-                  fontSize: 15.0,
-                  color: Colors.black,
-                ),
+                    fontSize: 15.0,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500),
               ),
             ),
           ),
