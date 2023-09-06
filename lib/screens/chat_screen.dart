@@ -106,6 +106,8 @@ class ChatScreenState extends State<ChatScreen> {
                     children: [
                       Expanded(
                         child: TextField(
+                          textCapitalization: TextCapitalization.sentences,
+                          autocorrect: true,
                           style: const TextStyle(color: Colors.black87),
                           cursorColor: kPrimaryColor,
                           controller: messageTextController,
