@@ -75,7 +75,7 @@ class ChatScreenState extends State<ChatScreen> {
                   showSpinner = true;
                 });
                 await _auth.signOut();
-                Navigator.popAndPushNamed(context, WelcomeScreen.id);
+                Navigator.popAndPushNamed(context, WelcomeScreenActual.id);
                 setState(() {
                   showSpinner = false;
                 });

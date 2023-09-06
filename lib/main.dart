@@ -27,9 +27,9 @@ class GroupChat extends StatelessWidget {
           bodyLarge: TextStyle(color: Colors.black),
         ),
       ),
-      initialRoute: WelcomeScreen.id,
+      initialRoute: WelcomeScreenActual.id,
       routes: {
-        WelcomeScreen.id: (context) => const WelcomeScreen(),
+        WelcomeScreenActual.id: (context) => const WelcomeScreen(),
         LoginScreen.id: (context) => const LoginScreen(),
         RegistrationScreen.id: (context) => const RegistrationScreen(),
         ChatScreen.id: (context) => const ChatScreen(),
